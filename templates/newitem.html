@@ -1,0 +1,63 @@
+{% include "header.html" %}
+
+
+<main role="main" class="inner cover">
+  <div class="row">
+
+    <div class="col-md-12 order-md-1">
+      <h4 class="mb-3">New Item</h4>
+      <form method="POST" enctype="multipart/form-data" action="{{ url_for('newItem', category=category)}}" novalidate>
+
+        <div class="row">
+
+          <div class="mb-3 col-md-12">
+            <label class="w-100" for="name">Name</label>
+            <input class="form-control" name="name" type="text" size="80" required>
+            <div class="invalid-feedback">
+              Valid name is required.
+            </div>
+          </div>
+
+          <div class="mb-3 col-md-12">
+            <label class="w-100" for="description">Description</label>
+            <textarea class="form-control" rows="5" cols="80" name="description" size="250" type="text" required></textarea>
+            <div class="invalid-feedback">
+              Valid description is required.
+            </div>
+          </div>
+
+          <div class="mb-3 col-md-12">
+            <label class="w-100" for="categories">Categories</label>
+            <select class="w-100 form-control" style="
+              -webkit-appearance: menulist-button;
+              height: {{count}}em !important;" name="categories" multiple required>
+              {% for cat in categories %}
+              {% if cat %}
+              <option {% if category == cat.slug %} selected {% endif %} value="{{cat.id}}">{{cat.name}}</option>
+              {% endif%} {% endfor%}
+            </select>
+            <div class="invalid-feedback">
+              Valid category is required.
+            </div>
+          </div>
+
+          <div class="mb-3 col-md-12">
+            <hr class="mb-4" />
+            <button class="btn btn-lg btn-block" type="submit">Save</button>
+            {% if category != "default" %}
+            <a href="{{ url_for('showItems', category=category) }}" alt="cancel" class="btn btn-lg btn-block">Cancel</a>
+            {% else %}
+            <a href="{{ url_for('showCatalog') }}" class="btn btn-lg btn-block">Cancel</a>
+            {% endif %}
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+
+
+  </div>
+</main>
+
+{% include "footer.html" %}

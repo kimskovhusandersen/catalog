@@ -1,0 +1,35 @@
+{% include "header.html" %}
+
+
+<main role="main" class="inner cover">
+  <div class="row">
+
+    <div class="col-md-12 order-md-1">
+      <h4 class="mb-3">Edit Category</h4>
+      <form method="POST" enctype="multipart/form-data" action="{{ url_for('editCategory', category=category.slug)}}">
+        <div class="row">
+
+          <div class="mb-3 col-md-12">
+            <label for="name">Name</label>
+            <input class="form-control" name="name" type="text" size="80" value="{{ category.name}}" required>
+            <div class="invalid-feedback">
+              Valid name is required.
+            </div>
+          </div>
+          <div class="mb-3 col-md-12">
+            <hr class="mb-4" />
+            <button class="btn btn-lg btn-block" type="submit">Save</button>
+            <a href="{{ url_for('showItems', category=category.slug) }}" class="btn btn-lg btn-block">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+  </div>
+</main>
+
+
+
+
+{% include "footer.html" %}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
+
+  <title>Project Catalog</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css')}}">
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+</head>
+
+<body>
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    {{ session }}
+    <header class="masthead">
+      <div class="inner">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container">
+            <a class="navbar-brand" href="{{url_for('showCatalog')}}">PROJECT CATALOG</a>
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('showCatalog')}}"><span class="sr-only">(current)</span>Catalog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">API</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+              </li>
+            </ul>
+            {%if 'access_token' not in session %}
+            <a class="nav-link" href="{{url_for('showLogin')}}">Login</a>
+            {% else %}
+            <a class="nav-link" href="{{ url_for('disconnect') }}">Logout </a>
+            {% endif %}
+          </div>
+        </nav>
+      </div>
+    </header>

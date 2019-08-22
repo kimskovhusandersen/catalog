@@ -1,0 +1,70 @@
+  {% include "header.html" %}
+
+
+  <main role="main" class="inner cover">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="col-sm-8">
+          <h2 class="font-italic">Categories</h2>
+        </div>
+        <div class="col-sm-4 pt-1">
+          <a href="{{url_for('newCategory')}}" class="btn btn-sm btn-outline-secondary">New Category</a>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <hr />
+      </div>
+
+      <div class="col-sm-12 mb-5">
+        <div class="col-sm-4">
+          {% for category in categories %}
+          {% if category %}
+          <div class="col-sm-12">
+            <a href="{{url_for('showItems', category=category.slug)}}" alt="show {{category.name}}"> {{category.name}}</a> <span class="small">({{category.items|length}})</span>
+          </div>
+          {% if loop.index is divisibleby 5 %}
+        </div>
+        <div class="col-sm-4">
+          {% endif%}
+          {% endif%}
+          {% endfor%}
+        </div>
+      </div>
+
+
+      <div class="col-sm-12 mt-5">
+        <div class="col-sm-8">
+          <h3 class="font-italic">Latest Items </h3>
+        </div>
+        <div class="col-sm-4 pt-1">
+          <a href="{{url_for('newItem', category="default")}}" class="btn btn-sm btn-outline-secondary">New Item</a>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <hr />
+      </div>
+      <div class="col-sm-12">
+        <div class="col-sm-4">
+          {% for item in latest %}
+          {% if item %}
+          <div class="col-sm-12">
+            <a style="font-size: {{range(18,36)|random}}px" ; href=" {{url_for('showItem', item=item.slug, category=item.categories[0].slug)}}" alt="show {{item.name}}">{{item.name}}</a>
+            ({% for category in item.categories %}{% if category %}<a href="{{url_for('showItems', category=category.slug)}}" alt="show {{category.name}}"><span
+                class="small text-secondary">{{category.name}}</span></a>{{ ", " if not loop.last }}{% endif%}{% endfor%})
+          </div>
+          {% if loop.index is divisibleby 1 %}
+        </div>
+        <div class="col-sm-4">
+          {% endif%}
+          {% endif%}
+          {% endfor%}
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  {% include "footer.html" %}

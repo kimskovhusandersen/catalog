@@ -1,0 +1,24 @@
+  {% include "header.html" %}
+
+  <main role="main" class="inner cover">
+    <div class="row">
+
+      <div class="col-md-12">
+        <h3>Are you sure you want to delete {{item.name}}?</h3>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('deleteItem', category=category, item=item.slug)}}">
+          <div class="row">
+            <div class="mb-3 col-md-12">
+              <hr class="mb-4" />
+              <button class="btn btn-lg btn-block" type="submit">Delete</button>
+              <a href="{{ url_for('showItem', category=category, item=item.slug) }}" class="btn btn-lg btn-block">Cancel</a>
+            </div>
+          </div>
+        </form>
+
+
+
+
+      </div>
+  </main>
+
+  {% include "footer.html" %}
