@@ -1,0 +1,76 @@
+{% include "header.html" %}
+
+<div class="col-sm-12 mt-5 clearfix">
+  <header>
+    <h2>Project Catalog</h2>
+  </header>
+  <h3>Introduction</h3>
+  <p>
+    Create, read, update and delete Categories, Items and Users in the Catalog with this API.
+  </p>
+  <h3>Overview</h3>
+  <p>
+    This API is developed as part of the second project of the Full Stack Web Developer Nanodegree at Udacity.
+  </p>
+  <h3>Authentication</h3>
+  <p>
+    GET requests are publicly available. All other requests requires a free login.
+  </p>
+  <h3>Error Codes</h3>
+  <p>
+    If there's an error, a JSON object with the key [message] will be return. The value of the key will be the error message(s).
+  </p>
+  <h3>Rate limit</h3>
+  <p>
+    Currently, there's a rate limit of 240 requests per day on all GET requests.
+  </p>
+
+  {% for item in api.item %}
+  {% if item %}
+  <div class="col-sm-12 mt-5">
+    <h3>{{item.request.method}} {{item.name}}
+      {% if item.request.auth%}
+      <img style="width:20px; height: 20px;" src="{{url_for('static', filename='lock.png')}}" alt="requires authentication" />
+      {% endif %}
+    </h3>
+    <div class="p-1 docs-desc-title__url">
+      {{item.request.url.raw}}
+    </div>
+
+    <div class="col-mb-12 mt-3">
+      {{item.request.description}}
+    </div>
+
+
+    {% if item.request.body %}
+    <div class="col-mb-12 mt-3">
+      <h6>Body [<span>{{item.request.body.mode}}</span>]</h6>
+      {% if item.request.body.formdata %}
+      {% for data in item.request.body.formdata %}
+      <div class="d-flex align-content-around flex-wrap formdata">
+        <div class="p-2 flex-wrap col-sm-4">{{data.key}}</div>
+        <div class="p-2 flex-wrap col-sm-8">{{data.value}}</div>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+
+    </div>
+    {% endif %}
+
+
+
+
+  </div>
+  {% endif %}
+  {% endfor %}
+
+</div>
+
+
+
+
+</div>
+</main>
+
+{% include "footer.html" %}

@@ -1,59 +1,56 @@
 {% include "header.html" %}
 
 
-<main role="main" class="inner cover">
-  <div class="row">
+<div class="col-md-12 order-md-1">
+  <h4 class="mb-3">Edit Item</h4>
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('editItem', category=category, item=item.slug)}}" novalidate>
 
-    <div class="col-md-12 order-md-1">
-      <h4 class="mb-3">Edit Item</h4>
-      <form method="POST" enctype="multipart/form-data" action="{{ url_for('editItem', category=category, item=item.slug)}}" novalidate>
+    <div class="row">
 
-        <div class="row">
+      <div class="mb-3 col-md-12">
+        <label class="w-100" for="name">Name</label>
+        <input class="form-control" name="name" type="text" size="80" value="{{ item.name}}" required>
+        <div class="invalid-feedback">
+          Valid name is required.
+        </div>
+      </div>
 
-          <div class="mb-3 col-md-12">
-            <label class="w-100" for="name">Name</label>
-            <input class="form-control" name="name" type="text" size="80" value="{{ item.name}}" required>
-            <div class="invalid-feedback">
-              Valid name is required.
-            </div>
-          </div>
+      <div class="mb-3 col-md-12">
+        <label class="w-100" for="description">Description</label>
+        <textarea class="form-control" rows="5" cols="80" name="description" size="250" type="text" required>{{item.description}}</textarea>
+        <div class="invalid-feedback">
+          Valid description is required.
+        </div>
+      </div>
 
-          <div class="mb-3 col-md-12">
-            <label class="w-100" for="description">Description</label>
-            <textarea class="form-control" rows="5" cols="80" name="description" size="250" type="text" required>{{item.description}}</textarea>
-            <div class="invalid-feedback">
-              Valid description is required.
-            </div>
-          </div>
-
-          <div class="mb-3 col-md-12">
-            <label class="w-100" for="categories">Categories</label>
-            <select class="w-100 form-control" style="
+      <div class="mb-3 col-md-12">
+        <label class="w-100" for="categories">Categories</label>
+        <select class="w-100 form-control" style="
               -webkit-appearance: menulist-button;
               height: {{count}}em !important;" name="categories" multiple required>
-              {% for category in categories %}
-              {% if category %}
-              <option {% for selectedCategory in item.categories %} {% if selectedCategory.id|string() == category.id|string() %} selected {% endif %}{% endfor %} value="{{category.id}}">{{category.name}}</option>
-              {% endif%} {% endfor%}
-            </select>
-            <div class="invalid-feedback">
-              Valid category is required.
-            </div>
-          </div>
-
-          <div class="mb-3 col-md-12">
-            <hr class="mb-4" />
-            <button class="btn btn-lg btn-block" type="submit">Save</button>
-            <a href="{{ url_for('showItem', category=category, item=item.slug) }}" class="btn btn-lg btn-block">Cancel</a>
-          </div>
-
+          {% for category in categories %}
+          {% if category %}
+          <option {% for selectedCategory in item.categories %} {% if selectedCategory.id|string() == category.id|string() %} selected {% endif %}{% endfor %} value="{{category.id}}">{{category.name}}</option>
+          {% endif%} {% endfor%}
+        </select>
+        <div class="invalid-feedback">
+          Valid category is required.
         </div>
+      </div>
 
-      </form>
+      <div class="mb-3 col-md-12">
+        <hr class="mb-4" />
+        <button class="btn btn-lg btn-block" type="submit">Save</button>
+        <a href="{{ url_for('showItem', category=category, item=item.slug) }}" class="btn btn-lg btn-block">Cancel</a>
+      </div>
+
     </div>
 
+  </form>
+</div>
 
-  </div>
+
+</div>
 </main>
 
 {% include "footer.html" %}

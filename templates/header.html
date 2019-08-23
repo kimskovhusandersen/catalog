@@ -18,21 +18,17 @@
 
 <body>
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    {{ session }}
     <header class="masthead">
       <div class="inner">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container">
             <a class="navbar-brand" href="{{url_for('showCatalog')}}">PROJECT CATALOG</a>
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('showCatalog')}}"><span class="sr-only">(current)</span>Catalog</a>
+              <li class="nav-item {% if request.path == '/catalog/' %}active{% endif %}">
+                <a class="nav-link" href="{{url_for('showCatalog')}}">Catalog</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">API</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
+              <li class="nav-item {% if request.path == '/API/' %}active{% endif %}">
+                <a class="nav-link" href="{{url_for('showAPI')}}">API</a>
               </li>
             </ul>
             {%if 'access_token' not in session %}
@@ -44,3 +40,37 @@
         </nav>
       </div>
     </header>
+    <main role="main" class="inner cover">
+      <div class="row">
+        <div class="col-md-12 text-center pt-1">&nbsp;
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          {% for message in messages %}
+          <span class="small message_flash">
+            {{ message }}
+          </span>
+          <script>
+            (function() {
+              setTimeout(function() {
+                (function fadeOutEffect() {
+                  var fadeTarget = document.querySelector(".message_flash");
+                  var fadeEffect = setInterval(function() {
+                    if (!fadeTarget.style.opacity) {
+                      fadeTarget.style.opacity = 1;
+                    }
+                    if (fadeTarget.style.opacity > 0) {
+                      fadeTarget.style.opacity -= 0.1;
+                    } else {
+                      clearInterval(fadeEffect);
+                      var elem = document.querySelector('.message_flash');
+                      elem.parentNode.removeChild(elem);
+                    }
+                  }, 75);
+                })()
+              }, 3000);
+            })()
+          </script>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
+        </div>

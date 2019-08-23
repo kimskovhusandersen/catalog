@@ -1,0 +1,1997 @@
+{
+	"info": {
+		"_postman_id": "0504553d-bb41-4c76-85ae-33c76143743b",
+		"name": "Project Catalog API copy",
+		"description": "# Introduction\nUsing the CRUD-model this API allows users to moderate categories and items for the Catalog.\n\n# Overview\nProject Catalog is the second project of the Full Stack Web Developer Nanodegree at Udacity.\n\n# Authentication\nGET requests are publicly available.\nAll other requests requires a free login.\n\n# Error Codes\nEmpty objects will be returned, if no results are found.\n\n# Rate limit\nCurrently, not in place, but will soon be updated",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "eyJhbGciOiJIUzUxMiIsImV4cCI6MTU2NjU2MTE2OSwiaWF0IjoxNTY2NTYwNTY5fQ.eyJpZCI6MX0.GTYzpF06qqE7IgiYV87poeTYunujo1K1ZLAqpaKDS1upcnXAf9JHKus0KlH7PnhsImhkmTaFxz0-xHBqtQx9jA",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token"
+					]
+				},
+				"description": "Token generation"
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/token",
+							"path": [
+								"api",
+								"token"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "/api/token",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "183"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 11:43:08 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiIsImV4cCI6MTU2NjU2MTE4OCwiaWF0IjoxNTY2NTYwNTg4fQ.eyJpZCI6MX0.O2sZ2-4tux3ORrwnm4YA9ogOX32wP3RLqC_XN5W9udtdk2LQSO2EcLagiUMeG3vTz0injSbZ9XI_c_7_IOWcoQ\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/api/oauth/<provider>",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "authorization_code",
+							"value": "4/qQGLb3-0OEFT-fR7J_18YywYIHIfVAJUvVw5Kpf8f1nXszR7s5IMz0O7UIqcvRcCk1aw5h7UXordvPxqw8VDYv0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/oauth/google?",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"oauth",
+						"google"
+					],
+					"query": [
+						{
+							"key": "authorization_code",
+							"value": "4/qQFbynnJTiycxBSu1bRN86ehbpuDW6vQ_WjBf8V3gbZaSl_F0LngHzCt7WszvsB2DfbT7bknTSJYvKo_bV-SPEI",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Exchange authorization code for token"
+			},
+			"response": [
+				{
+					"name": "https://localhost:8000/api/oauth/google",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "authorization_code",
+									"value": "4/qQHKyk_rGyGnNhygR4guj7o0xv1fG5zBsz0xCfmUu_oAWVKr71-zE3fMyLWvkz3FOsWb5vzH3ab8gOazRV6lyuY",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/oauth/google?",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"oauth",
+								"google"
+							],
+							"query": [
+								{
+									"key": "authorization_code",
+									"value": "4/qQG3p9XeLXWjQs5NcMHNVcrkwXxou1YZKLJN77OjzqHLKVVFic4zj5JiUg811qIe1JEXiNbOdTmeto7yT-LC-sw",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "183"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "299"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "300"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1566560130"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 11:35:14 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiIsImV4cCI6MTU2NjU2MDcxNCwiaWF0IjoxNTY2NTYwMTE0fQ.eyJpZCI6MX0.eGc3Yw6dAv2M4OHz_Rjroo0IC-K5jMd6S15o1ZX2BnpgJ52pZ_f9AFOZz8sbrqra3CZR0jDkrt0ca5zAxGoNww\"\n}"
+				},
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/api/oauth/<provider>",
+							"path": [
+								"api",
+								"oauth",
+								"<provider>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Anna Due",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "anna.due@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/users",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users"
+					]
+				},
+				"description": "Create new user"
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/api/users",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "/api/users",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Anna Due",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "anna.due@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "38"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 11:45:38 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"email\": \"anna.due@example.com\"\n}"
+				},
+				{
+					"name": "/api/users",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Anna Due",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "anna.due@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "38"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 11:45:38 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"email\": \"anna.due@example.com\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/api/users/<int:id>",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "eyJhbGciOiJIUzUxMiIsImV4cCI6MTU2NjU2MjEyMiwiaWF0IjoxNTY2NTYxNTIyfQ.eyJpZCI6MX0.0fn5w8EsHTnrkcivkOmIRN2Ukq_NH_URFI3NrxWl_qNrJpVWX5E2Vpp5N7EjNgLmQDNzvTjE2LUWxNgP6thFgQ",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8000/api/users/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						"3"
+					]
+				},
+				"description": "Read user by ID"
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/users/<int:id>",
+							"path": [
+								"api",
+								"users",
+								"<int:id>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/catalog",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "john.due@example.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "MyNewCategory",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog"
+					]
+				},
+				"description": "Create new category"
+			},
+			"response": [
+				{
+					"name": "/api/catalog",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "MyNewCategory",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "115"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:04:03 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Category\": {\n        \"id\": 13,\n        \"items\": [],\n        \"name\": \"Mynewcategory\",\n        \"slug\": \"mynewcategory\"\n    }\n}"
+				},
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/api/catalog",
+							"path": [
+								"api",
+								"catalog"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/catalog",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog"
+					]
+				},
+				"description": "Read all categories"
+			},
+			"response": [
+				{
+					"name": "/api/catalog",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3863"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "299"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "300"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1566561960"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:05:37 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Categories\": [\n        [\n            {\n                \"id\": 4,\n                \"items\": [\n                    {\n                        \"id\": 4,\n                        \"name\": \"Racket\",\n                        \"slug\": \"racket\"\n                    },\n                    {\n                        \"id\": 6,\n                        \"name\": \"Shuttlecock\",\n                        \"slug\": \"shuttlecock\"\n                    }\n                ],\n                \"name\": \"Badminton\",\n                \"slug\": \"badminton\"\n            },\n            {\n                \"id\": 1,\n                \"items\": [\n                    {\n                        \"id\": 1,\n                        \"name\": \"Batting\",\n                        \"slug\": \"batting\"\n                    },\n                    {\n                        \"id\": 2,\n                        \"name\": \"Baseball Bat\",\n                        \"slug\": \"baseball-bat\"\n                    },\n                    {\n                        \"id\": 3,\n                        \"name\": \"Baseball Cap\",\n                        \"slug\": \"baseball-cap\"\n                    }\n                ],\n                \"name\": \"Baseball\",\n                \"slug\": \"baseball\"\n            },\n            {\n                \"id\": 2,\n                \"items\": [\n                    {\n                        \"id\": 7,\n                        \"name\": \"Basketball (Ball)\",\n                        \"slug\": \"basketball-ball\"\n                    },\n                    {\n                        \"id\": 8,\n                        \"name\": \"Basketball Court\",\n                        \"slug\": \"basketball-court\"\n                    },\n                    {\n                        \"id\": 10,\n                        \"name\": \"Backboard (Basketball)\",\n                        \"slug\": \"backboard-basketball\"\n                    }\n                ],\n                \"name\": \"Basketball\",\n                \"slug\": \"basketball\"\n            },\n            {\n                \"id\": 6,\n                \"items\": [\n                    {\n                        \"id\": 9,\n                        \"name\": \"Billiard Ball\",\n                        \"slug\": \"billiard-ball\"\n                    }\n                ],\n                \"name\": \"Billard\",\n                \"slug\": \"billard\"\n            },\n            {\n                \"id\": 5,\n                \"items\": [\n                    {\n                        \"id\": 13,\n                        \"name\": \"Football (Ball)\",\n                        \"slug\": \"football-ball\"\n                    }\n                ],\n                \"name\": \"Football\",\n                \"slug\": \"football\"\n            },\n            {\n                \"id\": 3,\n                \"items\": [\n                    {\n                        \"id\": 11,\n                        \"name\": \"Hockey Stick\",\n                        \"slug\": \"hockey-stick\"\n                    },\n                    {\n                        \"id\": 12,\n                        \"name\": \"Hockey Puck\",\n                        \"slug\": \"hockey-puck\"\n                    }\n                ],\n                \"name\": \"Hockey\",\n                \"slug\": \"hockey\"\n            },\n            {\n                \"id\": 10,\n                \"items\": [\n                    {\n                        \"id\": 5,\n                        \"name\": \"Skates\",\n                        \"slug\": \"skates\"\n                    }\n                ],\n                \"name\": \"Ice Skating\",\n                \"slug\": \"ice-skating\"\n            },\n            {\n                \"id\": 13,\n                \"items\": [],\n                \"name\": \"Mynewcategory\",\n                \"slug\": \"mynewcategory\"\n            },\n            {\n                \"id\": 9,\n                \"items\": [\n                    {\n                        \"id\": 4,\n                        \"name\": \"Racket\",\n                        \"slug\": \"racket\"\n                    }\n                ],\n                \"name\": \"Racquetball\",\n                \"slug\": \"racquetball\"\n            },\n            {\n                \"id\": 11,\n                \"items\": [\n                    {\n                        \"id\": 5,\n                        \"name\": \"Skates\",\n                        \"slug\": \"skates\"\n                    }\n                ],\n                \"name\": \"Roller Skating\",\n                \"slug\": \"roller-skating\"\n            },\n            {\n                \"id\": 12,\n                \"items\": [\n                    {\n                        \"id\": 14,\n                        \"name\": \"Sneakers\",\n                        \"slug\": \"sneakers\"\n                    }\n                ],\n                \"name\": \"Running\",\n                \"slug\": \"running\"\n            },\n            {\n                \"id\": 7,\n                \"items\": [\n                    {\n                        \"id\": 4,\n                        \"name\": \"Racket\",\n                        \"slug\": \"racket\"\n                    }\n                ],\n                \"name\": \"Squash\",\n                \"slug\": \"squash\"\n            },\n            {\n                \"id\": 8,\n                \"items\": [\n                    {\n                        \"id\": 4,\n                        \"name\": \"Racket\",\n                        \"slug\": \"racket\"\n                    },\n                    {\n                        \"id\": 14,\n                        \"name\": \"Sneakers\",\n                        \"slug\": \"sneakers\"\n                    }\n                ],\n                \"name\": \"Tennis\",\n                \"slug\": \"tennis\"\n            }\n        ],\n        {}\n    ]\n}"
+				},
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/catalog",
+							"path": [
+								"api",
+								"catalog"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/<category_id>",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"1"
+					]
+				},
+				"description": "Read category by ID"
+			},
+			"response": [
+				{
+					"name": "/api/catalog/<category_id>",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "458"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "299"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "300"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1566561990"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:06:14 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Category\": [\n        {\n            \"id\": 1,\n            \"items\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Batting\",\n                    \"slug\": \"batting\"\n                },\n                {\n                    \"id\": 2,\n                    \"name\": \"Baseball Bat\",\n                    \"slug\": \"baseball-bat\"\n                },\n                {\n                    \"id\": 3,\n                    \"name\": \"Baseball Cap\",\n                    \"slug\": \"baseball-cap\"\n                }\n            ],\n            \"name\": \"Baseball\",\n            \"slug\": \"baseball\"\n        },\n        {}\n    ]\n}"
+				},
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/catalog/<category_id>",
+							"path": [
+								"api",
+								"catalog",
+								"<category_id>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/<category_id>",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "john.due@example.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "myNewCategoryName",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/13",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"13"
+					]
+				},
+				"description": "Update category"
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/api/catalog/<category_id>",
+							"path": [
+								"api",
+								"catalog",
+								"<category_id>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "/api/catalog/<category_id>",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "MyNewCategoryName",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/7",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"7"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "254"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:07:43 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Category\": [\n        {\n            \"id\": 7,\n            \"items\": [\n                {\n                    \"id\": 4,\n                    \"name\": \"Racket\",\n                    \"slug\": \"racket\"\n                }\n            ],\n            \"name\": \"Mynewcategoryname\",\n            \"slug\": \"mynewcategoryname\"\n        },\n        {}\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/<category_id>",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "john.due@example.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/13",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"13"
+					]
+				},
+				"description": "Delete category"
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/api/catalog/<category_id>",
+							"path": [
+								"api",
+								"catalog",
+								"<category_id>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "/api/catalog/<category_id>",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/13",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"13"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "35"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:15:55 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "Category ID 13 successfully deleted"
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/items",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "john.due@example.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "myNewTestItem",
+							"description": "This is a test name",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "This is a test description for myNewTestItem",
+							"description": "This is a test description",
+							"type": "text"
+						},
+						{
+							"key": "categories",
+							"value": "[1,3,7]",
+							"description": "This is an array containing the associated category IDs",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/items",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"items"
+					]
+				},
+				"description": "Create new item"
+			},
+			"response": [
+				{
+					"name": "/api/catalog/items",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "myNewTestItem",
+									"description": "This is a test name",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is a test description for myNewTestItem",
+									"description": "This is a test description",
+									"type": "text"
+								},
+								{
+									"key": "categories",
+									"value": "[1,3,7]",
+									"description": "This is an array containing the associated category IDs",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/items",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"items"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "145"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:21:25 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Item\": [\n        {\n            \"categories\": [],\n            \"id\": 15,\n            \"name\": \"Mynewtestitem\",\n            \"slug\": \"mynewtestitem\"\n        },\n        {}\n    ]\n}"
+				},
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/api/catalog/items",
+							"path": [
+								"api",
+								"catalog",
+								"items"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/items",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/items",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"items"
+					]
+				},
+				"description": "Read all items"
+			},
+			"response": [
+				{
+					"name": "/api/catalog/items",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/items",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"items"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3559"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "299"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "300"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1566562920"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:21:55 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Items\": [\n        [\n            {\n                \"categories\": [\n                    {\n                        \"id\": 2,\n                        \"name\": \"Basketball\"\n                    }\n                ],\n                \"id\": 10,\n                \"name\": \"Backboard (Basketball)\",\n                \"slug\": \"backboard-basketball\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 1,\n                        \"name\": \"Baseball\"\n                    }\n                ],\n                \"id\": 2,\n                \"name\": \"Baseball Bat\",\n                \"slug\": \"baseball-bat\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 1,\n                        \"name\": \"Baseball\"\n                    }\n                ],\n                \"id\": 3,\n                \"name\": \"Baseball Cap\",\n                \"slug\": \"baseball-cap\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 2,\n                        \"name\": \"Basketball\"\n                    }\n                ],\n                \"id\": 7,\n                \"name\": \"Basketball (Ball)\",\n                \"slug\": \"basketball-ball\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 2,\n                        \"name\": \"Basketball\"\n                    }\n                ],\n                \"id\": 8,\n                \"name\": \"Basketball Court\",\n                \"slug\": \"basketball-court\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 1,\n                        \"name\": \"Baseball\"\n                    }\n                ],\n                \"id\": 1,\n                \"name\": \"Batting\",\n                \"slug\": \"batting\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 6,\n                        \"name\": \"Billard\"\n                    }\n                ],\n                \"id\": 9,\n                \"name\": \"Billiard Ball\",\n                \"slug\": \"billiard-ball\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 5,\n                        \"name\": \"Football\"\n                    }\n                ],\n                \"id\": 13,\n                \"name\": \"Football (Ball)\",\n                \"slug\": \"football-ball\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 3,\n                        \"name\": \"Hockey\"\n                    }\n                ],\n                \"id\": 12,\n                \"name\": \"Hockey Puck\",\n                \"slug\": \"hockey-puck\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 3,\n                        \"name\": \"Hockey\"\n                    }\n                ],\n                \"id\": 11,\n                \"name\": \"Hockey Stick\",\n                \"slug\": \"hockey-stick\"\n            },\n            {\n                \"categories\": [],\n                \"id\": 15,\n                \"name\": \"Mynewtestitem\",\n                \"slug\": \"mynewtestitem\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 4,\n                        \"name\": \"Badminton\"\n                    },\n                    {\n                        \"id\": 8,\n                        \"name\": \"Tennis\"\n                    },\n                    {\n                        \"id\": 9,\n                        \"name\": \"Racquetball\"\n                    },\n                    {\n                        \"id\": 7,\n                        \"name\": \"Badminto\"\n                    }\n                ],\n                \"id\": 4,\n                \"name\": \"Racket\",\n                \"slug\": \"racket\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 4,\n                        \"name\": \"Badminton\"\n                    }\n                ],\n                \"id\": 6,\n                \"name\": \"Shuttlecock\",\n                \"slug\": \"shuttlecock\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 10,\n                        \"name\": \"Ice Skating\"\n                    },\n                    {\n                        \"id\": 11,\n                        \"name\": \"Roller Skating\"\n                    }\n                ],\n                \"id\": 5,\n                \"name\": \"Skates\",\n                \"slug\": \"skates\"\n            },\n            {\n                \"categories\": [\n                    {\n                        \"id\": 8,\n                        \"name\": \"Tennis\"\n                    },\n                    {\n                        \"id\": 12,\n                        \"name\": \"Running\"\n                    }\n                ],\n                \"id\": 14,\n                \"name\": \"Sneakers\",\n                \"slug\": \"sneakers\"\n            }\n        ],\n        {}\n    ]\n}"
+				},
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/catalog/items",
+							"path": [
+								"api",
+								"catalog",
+								"items"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/items/<item_id>",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/items/15",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"items",
+						"15"
+					]
+				},
+				"description": "Read item by ID"
+			},
+			"response": [
+				{
+					"name": "/api/catalog/items/<item_id>",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/items/15",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"items",
+								"15"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "146"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "299"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "300"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1566562950"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:22:10 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Items\": [\n        {\n            \"categories\": [],\n            \"id\": 15,\n            \"name\": \"Mynewtestitem\",\n            \"slug\": \"mynewtestitem\"\n        },\n        {}\n    ]\n}"
+				},
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/catalog/items/<item_id>",
+							"path": [
+								"api",
+								"catalog",
+								"items",
+								"<item_id>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/<category_id>/items",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/1/items",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"1",
+						"items"
+					]
+				},
+				"description": "Read items by category ID"
+			},
+			"response": [
+				{
+					"name": "/api/catalog/<category_id>/items",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/1/items",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"1",
+								"items"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "330"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "299"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "300"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1566563010"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:23:02 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Items\": [\n        [\n            {\n                \"id\": 1,\n                \"name\": \"Batting\",\n                \"slug\": \"batting\"\n            },\n            {\n                \"id\": 2,\n                \"name\": \"Baseball Bat\",\n                \"slug\": \"baseball-bat\"\n            },\n            {\n                \"id\": 3,\n                \"name\": \"Baseball Cap\",\n                \"slug\": \"baseball-cap\"\n            }\n        ],\n        {}\n    ]\n}"
+				},
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/catalog/<category_id>/items",
+							"path": [
+								"api",
+								"catalog",
+								"<category_id>",
+								"items"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/<category_id>/<item_id>",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/1/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"1",
+						"1"
+					]
+				},
+				"description": "Read item by ID and by category ID"
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/catalog/<category_id>/<item_id>",
+							"path": [
+								"api",
+								"catalog",
+								"<category_id>",
+								"<item_id>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "/api/catalog/<category_id>/<item_id>",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/1/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"1",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "208"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "299"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "300"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1566563010"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:23:23 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"item\": [\n        {\n            \"categories\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Baseball\"\n                }\n            ],\n            \"id\": 1,\n            \"name\": \"Batting\",\n            \"slug\": \"batting\"\n        },\n        {}\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/items/<item_id>",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "john.due@example.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "BattingIsFun",
+							"description": "This is a test title",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/items/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"items",
+						"1"
+					]
+				},
+				"description": "Update item"
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/api/catalog/items/<item_id>",
+							"path": [
+								"api",
+								"catalog",
+								"items",
+								"<item_id>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "/api/catalog/items/<item_id>",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "BattingIsFun",
+									"description": "This is a test title",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/items/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"items",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "218"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:45:01 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Item\": [\n        {\n            \"categories\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Baseball\"\n                }\n            ],\n            \"id\": 1,\n            \"name\": \"Battingisfun\",\n            \"slug\": \"battingisfun\"\n        },\n        {}\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "/api/catalog/items/<item_id>",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "john.due@example.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8000/api/catalog/items/15",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"catalog",
+						"items",
+						"15"
+					]
+				},
+				"description": "Delete item"
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "/api/catalog/items/<item_id>",
+							"path": [
+								"api",
+								"catalog",
+								"items",
+								"<item_id>"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "/api/catalog/items/<item_id>",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:8000/api/catalog/items/15",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"catalog",
+								"items",
+								"15"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "31"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.15.5 Python/2.7.12"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 23 Aug 2019 12:46:03 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "Item ID 15 successfully deleted"
+				}
+			]
+		}
+	]
+}

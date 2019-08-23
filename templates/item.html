@@ -1,47 +1,43 @@
 {% include "header.html" %}
 
 
-<main role="main" class="inner cover">
-  <div class="row">
-
-    <div class="col-md-12">
-      <div class="col-sm-8">
-
-        <h2 class="font-italic"><a class="small" href="{{url_for('showItems', category=category)}}" alt="show {{category}}">{{category}}</a> &raquo; {{item.name}}</h2>
-      </div>
-      <div class="col-sm-2 pt-1">
-        <a href="{{url_for('editItem', category=category, item=item.slug)}}" class="btn btn-sm btn-outline-secondary">Edit Item</a>
-      </div>
-      <div class="col-sm-2 pt-1">
-        <a href="{{url_for('deleteItem', category=category, item=item.slug)}}" class="btn btn-sm btn-outline-secondary">Delete Item</a>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="col-sm-8">
-        <p class="font-italic"><i><span style="font-size: 1.1em">&ldquo;</span>{{item.description}}<span style="font-size: 1.1em">&rdquo;</span></i></p>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <hr />
-    </div>
-    <div class="col-md-12">
-      {% if item.categories %}
-      <div class="col-sm-12">Categories:
-        {% for category in item.categories %}
-        {% if category %}
-        <a class="small" href="{{url_for('showItems', category=category.slug)}}" alt="show {{category.name}}"> {{category.name}}</a>{{ ", " if not loop.last }}
-        {% endif %}
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-
-
-
-
-
-
+<div class="col-md-12">
+  <div class="col-sm-8">
+    <h2 class="font-italic"><a class="small" href="{{url_for('showItems', category=category)}}" alt="show {{category}}">{{category}}</a> &raquo; <span class="text-success">{{item.name}}</span></h2>
   </div>
+  <div class="col-sm-2 pt-1">
+    <a href="{{url_for('editItem', category=category, item=item.slug)}}" class="btn btn-sm btn-outline-secondary">Edit Item</a>
+  </div>
+  <div class="col-sm-2 pt-1">
+    <a href="{{url_for('deleteItem', category=category, item=item.slug)}}" class="btn btn-sm btn-outline-secondary">Delete Item</a>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="col-sm-8">
+    <p class="font-italic"><i><span style="font-size: 1.1em">&ldquo;</span>{{item.description}}<span style="font-size: 1.1em">&rdquo;</span></i></p>
+  </div>
+</div>
+<div class="col-md-12">
+  <hr />
+</div>
+<div class="col-md-12">
+  {% if item.categories %}
+  <div class="col-sm-12">Categories:
+    {% for category in item.categories %}
+    {% if category %}
+    <a class="small text-primary" href="{{url_for('showItems', category=category.slug)}}" alt="show {{category.name}}"> {{category.name}}</a>{{ ", " if not loop.last }}
+    {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+
+
+
+
+
+</div>
 </main>
 
 

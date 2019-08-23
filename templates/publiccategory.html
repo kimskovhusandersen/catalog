@@ -1,42 +1,39 @@
 {% include "header.html" %}
 
 
-<main role="main" class="inner cover">
-  <div class="row">
-
-    <div class="col-md-12">
-      <div class="col-sm-12">
-        <h2 class="font-italic"><a class="small" href="{{url_for('showCatalog')}}" alt="show catalog">Catalog</a> &raquo; {{category.name}}</h2>
-      </div>
-    </div>
-
-    <div class="col-md-12">
-      <hr />
-    </div>
-
-    <div class="col-sm-12 mb-3">
-      <div class="col-sm-12">
-        <h4 class="font-italic"><span class="small">{{category.name}}</span> &raquo; Items {% if count %}({{count}}){% else %}(0){% endif %}</h4>
-      </div>
-    </div>
-    <div class="col-md-12">
-      {% for item in category.items %}
-      {% if item %}
-      <div class="col-sm-12">
-        <a href="{{url_for('showItem', category=category.slug, item=item.slug)}}" alt="show {{item.name}}"> {{item.name}}</a>
-      </div>
-      {% if loop.index is divisibleby 10 %}
-    </div>
-    <div class="col-sm-4">
-      {% endif%}
-      {% endif%}
-      {% endfor%}
-    </div>
-
-
-
-
+<div class="col-md-12">
+  <div class="col-sm-12">
+    <h2 class="font-italic"><a class="small" href="{{url_for('showCatalog')}}" alt="show catalog">Catalog</a> &raquo; <span class="text-primary">{{category.name}}</span></h2>
   </div>
+</div>
+
+<div class="col-md-12">
+  <hr />
+</div>
+
+<div class="col-sm-12 mb-3">
+  <div class="col-sm-12">
+    <h4 class="font-italic"> Items {% if count %}({{count}}){% else %}(0){% endif %}</h4>
+  </div>
+</div>
+<div class="col-md-12">
+  {% for item in category.items %}
+  {% if item %}
+  <div class="col-sm-12">
+    <h5><a href="{{url_for('showItem', category=category.slug, item=item.slug)}}" alt="show {{item.name}}"> <span class="text-success">{{item.name}}</span></a></h5>
+  </div>
+  {% if loop.index is divisibleby 10 %}
+</div>
+<div class="col-sm-4">
+  {% endif%}
+  {% endif%}
+  {% endfor%}
+</div>
+
+
+
+
+</div>
 </main>
 
 
