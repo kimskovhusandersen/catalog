@@ -41,7 +41,7 @@
       <div class="mb-3 col-md-12">
         <hr class="mb-4" />
         <button class="btn btn-lg btn-block" type="submit">Save</button>
-        <a href="{{ url_for('showItem', category=category, item=item.slug) }}" class="btn btn-lg btn-block">Cancel</a>
+        <a href="{{ cancel }}" class="btn btn-lg btn-block">Cancel</a>
       </div>
 
     </div>
@@ -50,7 +50,5 @@
 </div>
 
 
-</div>
-</main>
 
 {% include "footer.html" %}

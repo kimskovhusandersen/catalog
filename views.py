@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-from OpenSSL import SSL
 from flask_sslify import SSLify
 from models import Base, User, Category, Item, association, ItemSerializer, CategorySerializer
 from flask import Flask, jsonify, request, url_for, render_template, flash, redirect, make_response, session as login_session, abort, g
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import scoped_session, sessionmaker
 import json
+from collections import OrderedDict
 import random
 import string
 import httplib2
@@ -18,10 +18,14 @@ from flask_httpauth import HTTPBasicAuth
 from functools import update_wrapper
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+# from OpenSSL import SSL
 auth = HTTPBasicAuth()
-# context = SSL.Context(SSL.SSLv23_METHOD)
-# context.use_privatekey_file('server.key')
-# context.use_certificate_file('server.crt')
+
+"""
+context = SSL.Context(SSL.SSLv23_METHOD)
+context.use_privatekey_file('server.key')
+context.use_certificate_file('server.crt')
+"""
 
 engine = create_engine('sqlite:///catalog.db')
 Base.metadata.bind = engine
@@ -32,10 +36,13 @@ app = Flask(__name__)
 limiter = Limiter(
     app,
     key_func=get_remote_address,
-    default_limits=["200 per day", "50 per hour"]
+    default_limits=["2000 per day", "500 per hour"]
 )
-# context = ('web.crt', 'web.key')
-# sslify = SSLify(app)
+
+"""
+context = ('web.crt', 'web.key')
+sslify = SSLify(app)
+"""
 
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
@@ -67,7 +74,8 @@ def newCategory():
         if not 'access_token' in login_session:
             return redirect('/login')
         else:
-            return render_template('newcategory.html')
+            cancel = login_session.get('last_visited')[-1]
+            return render_template('newcategory.html', cancel=cancel)
 
     if request.method == "POST":
         data = request.form
@@ -94,9 +102,10 @@ def editCategory(category):
         if not 'access_token' in login_session:
             return redirect('/login')
         else:
+            cancel = login_session.get('last_visited')[-1]
             category = get_first(Category, {"slug": category})
             if category is not None:
-                return render_template('editCategory.html', category=category)
+                return render_template('editCategory.html', category=category, cancel=cancel)
 
     if request.method == "POST":
         data = request.form
@@ -112,8 +121,9 @@ def deleteCategory(category):
         if not 'access_token' in login_session:
             return redirect('/login')
         else:
+            cancel = login_session.get('last_visited')[-1]
             row = get_first(Category, {"slug": category})
-            return render_template('deleteCategory.html', category=row)
+            return render_template('deleteCategory.html', category=row, cancel=cancel)
 
     if request.method == "POST":
         category = delete(Category, {"slug": category})
@@ -128,10 +138,11 @@ def newItem(category):
         if not 'access_token' in login_session:
             return redirect('/login')
         else:
-            # category = get_first(Category, {"slug": category})
+            cancel = login_session.get('last_visited')[-1]
+            category = get_first(Category, {"slug": category})
             categories = get_all(Category)
             count = count_cat(Category)
-            return render_template('newitem.html', categories=categories, category=category, count=count)
+            return render_template('newitem.html', categories=categories, category=category, count=count, cancel=cancel)
 
     if request.method == "POST":
         data = request.form
@@ -170,10 +181,11 @@ def editItem(category, item):
         if not 'access_token' in login_session:
             return redirect('/login')
         else:
+            cancel = login_session.get('last_visited')[-1]
             categories = get_all(Category)
             count = count_cat(Category)
             item = get_first(Item, {"slug": item})
-            return render_template('edititem.html', category=category, categories=categories, count=count, item=item)
+            return render_template('edititem.html', category=category, categories=categories, count=count, item=item, cancel=cancel)
 
     if request.method == "POST":
         data = request.form
@@ -189,8 +201,9 @@ def deleteItem(category, item):
         if not 'access_token' in login_session:
             return redirect('/login')
         else:
+            cancel = login_session.get('last_visited')[-1]
             item = get_first(Item, {"slug": item})
-            return render_template('deleteitem.html', item=item, category=category)
+            return render_template('deleteitem.html', item=item, category=category, cancel=cancel)
 
     if request.method == "POST":
         item = delete(Item, {"slug": item})
@@ -205,10 +218,35 @@ def showAPI():
     return render_template('API.html', api=loaded_api)
 
 
-@app.route('/contact/', methods=['GET'])
-def showContact():
-    return render_template('contact.html')
-
+@app.route('/search/<search>', methods=['GET'])
+def showSearch(search):
+    if request.method == "GET":
+        data = prepareData()
+        title = data['search']
+        item = get_first(Item, {"name": title})
+        category = get_first(Category, {"name": title})
+        wiki_item = getWikiInfo(title)
+        wiki_categories = getWikiCategories(title)
+        categories_exist = []
+        if wiki_categories is not None:
+            categories_exist = session.query(Category).filter(
+                Category.name.in_(wiki_categories)).all()
+            if categories_exist:
+                filtered_wiki_categories = []
+                for c in wiki_categories:
+                    unique = True
+                    for category in categories_exist:
+                        if c == category.name:
+                            unique = False
+                            break
+                    if unique == True:
+                        filtered_wiki_categories.append(c)
+                if filtered_wiki_categories != []:
+                    wiki_categories = filtered_wiki_categories
+        if not 'access_token' in login_session:
+            return render_template('publicsearch.html', item=item, category=category, wiki_item=wiki_item, wiki_categories=wiki_categories, categories_exist=categories_exist)
+        else:
+            return render_template('search.html', item=item, category=category, wiki_item=wiki_item, wiki_categories=wiki_categories, categories_exist=categories_exist)
 
 # ++++++++++
 # API ROUTES:
@@ -473,6 +511,7 @@ def get_user(id):
 
 
 def prepareData():
+    data = None
     if request.form:
         return request.form
     if request.args:
@@ -486,26 +525,25 @@ def prepareData():
 # CREATE
 def create(table, data):
     if 'name' in data:
-        name = data['name'].strip().title()
+        name = data['name'].strip().lower().capitalize()
         if name == "":
-            return "Need a valid name"
+            return jsonify({"message": "Need a valid name"})
     exist = session.query(table).filter(
         table.name == name).first()
     if exist is not None:
-        return "That name has already been taken"
-
+        return jsonify({"message": "That name has already been taken"})
     if table == Item:
         if 'description' in data:
             description = data['description']
         else:
-            return "Need valid description"
+            return jsonify({"message": "Need valid description"})
         if 'categories' in data:
             if isinstance(data['categories'], list):
                 categories = data['categories']
             else:
                 categories = data.getlist('categories')
         if categories == [] or not isinstance(categories, list):
-            return "Need valid category ID(s) as array"
+            return jsonify({"message": "Need valid category ID(s) as array"})
     try:
         if table == Category:
             row = Category()
@@ -577,7 +615,7 @@ def update(table, data, kwargs):
         return "Could not find any row"
 
     if 'name' in data:
-        name = data['name'].strip().title()
+        name = data['name'].strip().lower().capitalize()
         if name == "":
             return "Need a valid name"
     if name != row.name:
@@ -725,11 +763,13 @@ def gconnect():
     login_session['provider'] = 'google'
 
     # see if user exists, if it doesn't make a new one
+
     user = get_first(User, {"email": data["email"]})
     if user is not None:
         user_id = user.id
-    if not user_id:
+    else:
         user_id = createUser(login_session)
+
     login_session['user_id'] = user_id
 
     output = "Welcome, {}.".format(login_session['name'])
@@ -794,8 +834,9 @@ def fbconnect():
 
     # see if user exists
     user = get_first(User, {"email": login_session['email']})
-    user_id = user.id
-    if not user_id:
+    if user is not None:
+        user_id = user.id
+    else:
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
 
@@ -895,9 +936,84 @@ def verify_password(email_or_token, password):
     return True
 
 
-# Run test server
+def getWikiInfo(title):
+    S = requests.Session()
+    URL = "https://en.wikipedia.org/w/api.php"
+    PARAMS = {
+        'action': "query",
+        'format': "json",
+        'prop': 'extracts',
+        'exintro': 1,
+        'explaintext': 1,
+        'redirects': 1,
+        'titles': title,
+    }
+
+    try:
+        data = S.get(url=URL, params=PARAMS).json()
+        if data:
+            pages = json.dumps(data['query']['pages'])
+        if pages:
+            wiki_page = next(
+                iter(json.loads(pages, object_pairs_hook=OrderedDict).values()))
+        if wiki_page:
+            wiki_page['title'] = (
+                wiki_page['title']).strip().lower().capitalize()
+            return wiki_page
+    except:
+        return None
+
+
+def getWikiCategories(title):
+    S = requests.Session()
+    URL = "https://en.wikipedia.org/w/api.php"
+    PARAMS = {
+        'action': "query",
+        'format': "json",
+        'titles': title,
+        'prop': 'categories'
+    }
+    try:
+        data = S.get(url=URL, params=PARAMS).json()
+        if data:
+            pages = json.dumps(data['query']['pages'])
+        if pages:
+            wiki_cats = next(
+                iter(json.loads(pages, object_pairs_hook=OrderedDict).values()))[
+                    'categories']
+        if wiki_cats:
+            wiki_categories = []
+            for i in wiki_cats:
+                wiki_categories.append(i['title'].split(
+                    'Category:', 1)[1])
+            return wiki_categories
+    except:
+        return None
+
+
+@app.after_request
+def store_visted_urls(response):
+    if not 'last_visited' in login_session:
+        login_session['last_visited'] = ["/catalog/"]
+    if 'last_visited' in login_session:
+        path = "{}".format(request.path)
+        f_word = "{}".format(request.path).split('/', 2)[1]
+        data = prepareData()
+        if isinstance(data, dict) and 'search' in data and data['search'] is not None:
+            q = data['search']
+            path += "?search={}".format(q)
+        print(">>>>>>>>>>>>>>>>>>>>{}".format(path))
+        if f_word != 'static' and login_session['last_visited'][-1] != "{}".format(path):
+            login_session['last_visited'].append("{}".format(path))
+    while len(login_session['last_visited']) > 4:
+        login_session['last_visited'].pop(0)
+    login_session.modified = True
+    return response
+
+
+    # Run test server
 if __name__ == '__main__':
-    # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = "1"
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = "1"
     # context = ('server.crt', 'server.key')
     app.secret_key = 'super_secret_key'
     app.run(host='0.0.0.0', port=8000, debug=True)

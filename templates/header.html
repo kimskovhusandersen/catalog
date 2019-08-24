@@ -9,6 +9,7 @@
   <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
 
   <title>Project Catalog</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css')}}">
@@ -17,6 +18,7 @@
 </head>
 
 <body>
+
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="masthead">
       <div class="inner">
@@ -31,6 +33,10 @@
                 <a class="nav-link" href="{{url_for('showAPI')}}">API</a>
               </li>
             </ul>
+            <form class="d-flex" method="GET" enctype="multipart/form-data" action="/search/q">
+              <input class="form-control" type="text" placeholder="Search.." name="search">
+              <button class="search-btn style=" width:10%!important" type="submit"><i class="fa fa-search"></i></button>
+            </form>
             {%if 'access_token' not in session %}
             <a class="nav-link" href="{{url_for('showLogin')}}">Login</a>
             {% else %}
