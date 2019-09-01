@@ -2,7 +2,7 @@
 
 <div class="col-md-12 order-md-1">
   <h4 class="mb-3">New Item</h4>
-  <form method="POST" enctype="multipart/form-data" action="{{ url_for('newItem', category=category)}}" novalidate>
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('newItem', category=category.slug)}}" novalidate>
 
     <div class="row">
 
@@ -29,7 +29,7 @@
               height: {{count}}em !important;" name="categories" multiple required>
           {% for cat in categories %}
           {% if cat %}
-          <option {% if category == cat.slug %} selected {% endif %} value="{{cat.id}}">{{cat.name}}</option>
+          <option {% if category.slug == cat.slug %} selected {% endif %} value="{{cat.id}}">{{cat.name}}</option>
           {% endif%} {% endfor%}
         </select>
         <div class="invalid-feedback">
@@ -41,7 +41,7 @@
         <hr class="mb-4" />
         <button class="btn btn-lg btn-block" type="submit">Save</button>
         {% if category != "default" %}
-        <a href="{{ url_for('showItems', category=category) }}" alt="cancel" class="btn btn-lg btn-block">Cancel</a>
+        <a href="{{ url_for('showItems', category=category.slug) }}" alt="cancel" class="btn btn-lg btn-block">Cancel</a>
         {% else %}
         <a href="{{ url_for('showCatalog') }}" class="btn btn-lg btn-block">Cancel</a>
         {% endif %}

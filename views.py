@@ -110,7 +110,8 @@ def editCategory(category):
     if request.method == "POST":
         data = request.form
         category = update(Category, data, {"slug": category})
-        flash("Successfully updated category ID {}!".format(category.id))
+        if hasattr(category, 'id'):
+            flash("Successfully updated category ID {}!".format(category.id))
         return redirect(url_for('showItems', category=category.slug))
 
 
@@ -127,7 +128,8 @@ def deleteCategory(category):
 
     if request.method == "POST":
         category = delete(Category, {"slug": category})
-        flash("Successfully deleted category ID {}!".format(category.id))
+        if hasattr(category, 'id'):
+            flash("Successfully deleted category ID {}!".format(category.id))
         return redirect(url_for('showCatalog'))
 
 
@@ -147,7 +149,8 @@ def newItem(category):
     if request.method == "POST":
         data = request.form
         item = create(Item, data)
-        flash("Successfully created Item ID {}!".format(item.id))
+        if hasattr(item, 'id'):
+            flash("Successfully created Item ID {}!".format(item.id))
         return redirect(url_for('showItems', category=category))
 
 
@@ -190,7 +193,8 @@ def editItem(category, item):
     if request.method == "POST":
         data = request.form
         item = update(Item, data, {"slug": item})
-        flash("Successfully updated Item ID {}!".format(item.id))
+        if hasattr(item, 'id'):
+            flash("Successfully updated Item ID {}!".format(item.id))
         return redirect(url_for('showItem', category=category, item=item.slug))
 
 
@@ -207,7 +211,8 @@ def deleteItem(category, item):
 
     if request.method == "POST":
         item = delete(Item, {"slug": item})
-        flash("Successfully deleted Item ID {}!".format(item.id))
+        if hasattr(item, 'id'):
+            flash("Successfully deleted Item ID {}!".format(item.id))
         return redirect(url_for('showItems', category=category, item=item))
 
 
@@ -1002,7 +1007,6 @@ def store_visted_urls(response):
         if isinstance(data, dict) and 'search' in data and data['search'] is not None:
             q = data['search']
             path += "?search={}".format(q)
-        print(">>>>>>>>>>>>>>>>>>>>{}".format(path))
         if f_word != 'static' and login_session['last_visited'][-1] != "{}".format(path):
             login_session['last_visited'].append("{}".format(path))
     while len(login_session['last_visited']) > 4:
