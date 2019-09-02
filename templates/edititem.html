@@ -27,7 +27,7 @@
         <label class="w-100" for="categories">Categories</label>
         <select class="w-100 form-control" style="
               -webkit-appearance: menulist-button;
-              height: {{count}}em !important;" name="categories" multiple required>
+              height: {{count}}em !important; min-height: 75px" name="categories" multiple required>
           {% for category in categories %}
           {% if category %}
           <option {% for selectedCategory in item.categories %} {% if selectedCategory.id|string() == category.id|string() %} selected {% endif %}{% endfor %} value="{{category.id}}">{{category.name}}</option>

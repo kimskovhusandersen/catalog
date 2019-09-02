@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 from flask_sslify import SSLify
-from models import Base, User, Category, Item, association, ItemSerializer, CategorySerializer
-from flask import Flask, jsonify, request, url_for, render_template, flash, redirect, make_response, session as login_session, abort, g
+from models import (Base, User, Category, Item, association, ItemSerializer,
+                    CategorySerializer)
+from flask import (Flask, jsonify, request, url_for, render_template, flash,
+                   redirect, make_response, session as login_session, abort, g)
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import scoped_session, sessionmaker
 import json
@@ -55,7 +57,8 @@ APIDOCS = json.loads(
 @app.route('/login')
 def showLogin():
     state = ''.join(
-        random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
+        random.choice(
+            string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
@@ -71,7 +74,7 @@ def clientOAuth():
 @app.route('/catalog/new/', methods=['GET', 'POST'])
 def newCategory():
     if request.method == "GET":
-        if not 'access_token' in login_session:
+        if 'access_token' not in login_session:
             return redirect('/login')
         else:
             cancel = login_session.get('last_visited')[-1]
@@ -88,48 +91,64 @@ def newCategory():
 @app.route('/catalog/', methods=['GET'])
 def showCatalog():
     categories = get_all(Category)
-    latest = session.query(Item).filter(
-        association.c.category_id == Category.id).filter(association.c.item_id == Item.id).order_by(Item.id.desc()).limit(10)
-    if not 'access_token' in login_session:
-        return render_template('publicindex.html', categories=categories, latest=latest)
+    try:
+        latest = session.query(Item).filter(
+            association.c.category_id == Category.id).filter(
+            association.c.item_id == Item.id).order_by(
+            Item.id.desc()).limit(10)
+    except:
+        pass
+    if 'access_token' not in login_session:
+        return render_template('publicindex.html', categories=categories,
+                               latest=latest)
     else:
-        return render_template('index.html', categories=categories, latest=latest)
+        return render_template('index.html', categories=categories,
+                               latest=latest)
 
 # UPDATE CATEGORY
 @app.route('/catalog/<category>/edit/', methods=["GET", "POST"])
 def editCategory(category):
     if request.method == "GET":
-        if not 'access_token' in login_session:
+        if 'access_token' not in login_session:
             return redirect('/login')
         else:
             cancel = login_session.get('last_visited')[-1]
             category = get_first(Category, {"slug": category})
             if category is not None:
-                return render_template('editCategory.html', category=category, cancel=cancel)
+                return render_template('editCategory.html', category=category,
+                                       cancel=cancel)
 
     if request.method == "POST":
         data = request.form
-        category = update(Category, data, {"slug": category})
-        if hasattr(category, 'id'):
-            flash("Successfully updated category ID {}!".format(category.id))
-        return redirect(url_for('showItems', category=category.slug))
+        row = update(Category, data, {"slug": category})
+        if hasattr(row, 'id'):
+            flash("Successfully updated category ID {}!".format(row.id))
+            return redirect(url_for('showItems', category=row.slug))
+        else:
+            flash("Could not update this category {}!".format(
+                row.response[0]))
+            return redirect(url_for('showItems', category=category))
 
 
 # DELETE CATEGORY
 @app.route('/catalog/<category>/delete/', methods=["GET", "POST"])
 def deleteCategory(category):
     if request.method == "GET":
-        if not 'access_token' in login_session:
+        if 'access_token' not in login_session:
             return redirect('/login')
         else:
             cancel = login_session.get('last_visited')[-1]
             row = get_first(Category, {"slug": category})
-            return render_template('deleteCategory.html', category=row, cancel=cancel)
+            return render_template('deleteCategory.html', category=row,
+                                   cancel=cancel)
 
     if request.method == "POST":
-        category = delete(Category, {"slug": category})
-        if hasattr(category, 'id'):
-            flash("Successfully deleted category ID {}!".format(category.id))
+        row = delete(Category, {"slug": category})
+        if hasattr(row, 'id'):
+            flash("Successfully deleted category ID {}!".format(row.id))
+        else:
+            flash("Could not delete this category {}!".format(
+                row.response[0]))
         return redirect(url_for('showCatalog'))
 
 
@@ -137,14 +156,16 @@ def deleteCategory(category):
 @app.route('/catalog/<category>/create/', methods=['GET', 'POST'])
 def newItem(category):
     if request.method == "GET":
-        if not 'access_token' in login_session:
+        if 'access_token' not in login_session:
             return redirect('/login')
         else:
             cancel = login_session.get('last_visited')[-1]
             category = get_first(Category, {"slug": category})
             categories = get_all(Category)
             count = count_cat(Category)
-            return render_template('newitem.html', categories=categories, category=category, count=count, cancel=cancel)
+            return render_template('newitem.html', categories=categories,
+                                   category=category, count=count,
+                                   cancel=cancel)
 
     if request.method == "POST":
         data = request.form
@@ -161,17 +182,22 @@ def showItems(category):
     categories = get_all(Category)
     category = get_first(Category, {"slug": category})
     count = count_items(category.id)
-    if not 'access_token' in login_session:
-        return render_template('publiccategory.html', categories=categories, category=category, count=count)
+    if 'access_token' not in login_session or \
+            category.user_id != login_session['user_id']:
+        return render_template('publiccategory.html',
+                               categories=categories, category=category,
+                               count=count)
     else:
-        return render_template('category.html', categories=categories, category=category, count=count)
+        return render_template('category.html', categories=categories,
+                               category=category, count=count)
 
 # READ ITEM
 @app.route('/catalog/<category>/<item>/', methods=['GET'])
 def showItem(category, item):
     # category = get_first(Category, {"slug": category})
     item = get_first(Item, {"slug": item})
-    if not 'access_token' in login_session:
+    if 'access_token' not in login_session or \
+            item.user_id != login_session['user_id']:
         return render_template('publicitem.html', category=category, item=item)
     else:
         return render_template('item.html', category=category, item=item)
@@ -181,39 +207,50 @@ def showItem(category, item):
 @app.route('/catalog/<category>/<item>/edit/', methods=['GET', 'POST'])
 def editItem(category, item):
     if request.method == "GET":
-        if not 'access_token' in login_session:
+        if 'access_token' not in login_session:
             return redirect('/login')
         else:
             cancel = login_session.get('last_visited')[-1]
             categories = get_all(Category)
             count = count_cat(Category)
             item = get_first(Item, {"slug": item})
-            return render_template('edititem.html', category=category, categories=categories, count=count, item=item, cancel=cancel)
+            return render_template('edititem.html', category=category,
+                                   categories=categories, count=count,
+                                   item=item, cancel=cancel)
 
     if request.method == "POST":
         data = request.form
-        item = update(Item, data, {"slug": item})
-        if hasattr(item, 'id'):
-            flash("Successfully updated Item ID {}!".format(item.id))
-        return redirect(url_for('showItem', category=category, item=item.slug))
+        row = update(Item, data, {"slug": item})
+        if hasattr(row, 'id'):
+            flash("Successfully updated item ID {}!".format(row.id))
+            return redirect(url_for(
+                'showItem', category=category, item=row.slug))
+        else:
+            flash("Could not update this category {}!".format(
+                row.response[0]))
+            return redirect(url_for('showItem', category=category, item=item))
 
 
 # DELETE ITEM
 @app.route('/catalog/<category>/<item>/delete/', methods=['GET', 'POST'])
 def deleteItem(category, item):
     if request.method == "GET":
-        if not 'access_token' in login_session:
+        if 'access_token' not in login_session:
             return redirect('/login')
         else:
             cancel = login_session.get('last_visited')[-1]
             item = get_first(Item, {"slug": item})
-            return render_template('deleteitem.html', item=item, category=category, cancel=cancel)
+            return render_template(
+                'deleteitem.html', item=item, category=category, cancel=cancel)
 
     if request.method == "POST":
-        item = delete(Item, {"slug": item})
-        if hasattr(item, 'id'):
-            flash("Successfully deleted Item ID {}!".format(item.id))
-        return redirect(url_for('showItems', category=category, item=item))
+        row = delete(Item, {"slug": item})
+        if hasattr(row, 'id'):
+            flash("Successfully deleted item ID {}!".format(row.id))
+        else:
+            flash("Could not delete this item {}!".format(
+                row.response[0]))
+        return redirect(url_for('showItems', category=category))
 
 
 @app.route('/API/', methods=['GET'])
@@ -244,14 +281,20 @@ def showSearch(search):
                         if c == category.name:
                             unique = False
                             break
-                    if unique == True:
+                    if unique is True:
                         filtered_wiki_categories.append(c)
                 if filtered_wiki_categories != []:
                     wiki_categories = filtered_wiki_categories
-        if not 'access_token' in login_session:
-            return render_template('publicsearch.html', item=item, category=category, wiki_item=wiki_item, wiki_categories=wiki_categories, categories_exist=categories_exist)
+        if 'access_token' not in login_session:
+            return render_template('publicsearch.html', item=item,
+                                   category=category, wiki_item=wiki_item,
+                                   wiki_categories=wiki_categories,
+                                   categories_exist=categories_exist)
         else:
-            return render_template('search.html', item=item, category=category, wiki_item=wiki_item, wiki_categories=wiki_categories, categories_exist=categories_exist)
+            return render_template('search.html', item=item,
+                                   category=category, wiki_item=wiki_item,
+                                   wiki_categories=wiki_categories,
+                                   categories_exist=categories_exist)
 
 # ++++++++++
 # API ROUTES:
@@ -351,7 +394,8 @@ def showItemAPI(item_id):
 @limiter.limit("240 per day")
 def showItemsAPI(category_id):
     items = session.query(Item).filter(
-        association.c.category_id == category_id).filter(association.c.item_id == Item.id).all()
+        association.c.category_id == category_id).filter(
+        association.c.item_id == Item.id).all()
     data = CategorySerializer.dump(items, many=True)
     return jsonify({"Items": data})
 
@@ -361,7 +405,8 @@ def showItemsAPI(category_id):
 @limiter.limit("240 per day")
 def showItemByCategoryAPI(category_id, item_id):
     item = session.query(Item).filter(
-        association.c.category_id == category_id).filter(association.c.item_id == Item.id).filter(Item.id == item_id).first()
+        association.c.category_id == category_id).filter(
+        association.c.item_id == Item.id).filter(Item.id == item_id).first()
     data = ItemSerializer.dump(item)
     return jsonify({"item": data})
 
@@ -419,8 +464,8 @@ def login(provider):
 
         # Check that the access token is valid.
         access_token = credentials.access_token
-        url = (
-            'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
+        url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
+               % access_token)
         h = httplib2.Http()
         result = json.loads(h.request(url, 'GET')[1])
         # If there was an error in the access token info, abort.
@@ -529,26 +574,35 @@ def prepareData():
 
 # CREATE
 def create(table, data):
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+        if not user_id:
+            return make_response(jsonify({
+                "message": "Need a valid user id"}), 401)
     if 'name' in data:
         name = data['name'].strip().lower().capitalize()
         if name == "":
-            return jsonify({"message": "Need a valid name"})
+            return make_response(jsonify(
+                {"message": "Need a valid name"}), 400)
     exist = session.query(table).filter(
         table.name == name).first()
     if exist is not None:
-        return jsonify({"message": "That name has already been taken"})
+        return make_response(jsonify(
+            {"message": "That name has already been taken"}), 400)
     if table == Item:
         if 'description' in data:
             description = data['description']
         else:
-            return jsonify({"message": "Need valid description"})
+            return make_response(jsonify(
+                {"message": "Need valid description"}), 400)
         if 'categories' in data:
             if isinstance(data['categories'], list):
                 categories = data['categories']
             else:
                 categories = data.getlist('categories')
         if categories == [] or not isinstance(categories, list):
-            return jsonify({"message": "Need valid category ID(s) as array"})
+            return make_response(jsonify(
+                {"message": "Need valid category ID(s) as array"}), 400)
     try:
         if table == Category:
             row = Category()
@@ -561,13 +615,12 @@ def create(table, data):
                 row.categories = []
                 row.categories.extend(exist)
         row.name = name
+        row.user_id = user_id
         session.add(row)
         session.commit()
         row = get_first(table, {"name": name})
-        if row is not None:
-            return row
-        else:
-            return None
+        return row
+
     except:
         pass
 
@@ -615,18 +668,29 @@ def count_items(category_id):
 
 
 def update(table, data, kwargs):
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+        if not user_id:
+            return make_response(jsonify({
+                "message": "Need a valid user id"}), 401)
     row = session.query(table).filter_by(**kwargs).first()
     if row is None:
-        return "Could not find any row"
+        return make_response(jsonify(
+            {"message": "Could not find any row"}))
+    elif user_id != row.user_id:
+        return make_response(jsonify(
+            {"message": "You do not have permission to edit this row"}), 405)
 
     if 'name' in data:
         name = data['name'].strip().lower().capitalize()
         if name == "":
-            return "Need a valid name"
+            return make_response(jsonify(
+                {"message": "Need a valid name"}))
     if name != row.name:
         exist = get_first(table, {"name": name})
         if exist is not None:
-            return "That name has already been taken"
+            return make_response(jsonify(
+                {"message": "That name has already been taken"}))
     if table == Item:
         if 'description' in data and data['description'] is not None:
             description = data['description']
@@ -642,29 +706,38 @@ def update(table, data, kwargs):
             for category in row.categories:
                 categories.append(category.id)
         if categories == [] or not isinstance(categories, list):
-            return "Need valid category ID(s) as array"
+            return make_response(jsonify(
+                {"message": "Need valid category ID(s) as array"}))
 
-    try:
-        row.name = name
+    row.name = name
 
-        if table == Item:
-            row.description = description
-            exist = session.query(Category).filter(
-                Category.id.in_(categories)).all()
-            if exist:
-                row.categories = []
-                row.categories.extend(exist)
+    if table == Item:
+        row.description = description
+        exist = session.query(Category).filter(
+            Category.id.in_(categories)).all()
+        if exist:
+            row.categories = []
+            row.categories.extend(exist)
 
-        session.commit()
-        return row
-    except:
-        pass
+    session.commit()
+    return row
 
 
 # DELETE
 def delete(table, kwargs):
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+        if not user_id:
+            return make_response(jsonify(
+                {"message": "Need a valid user id"}), 401)
     row = get_first(table, kwargs)
-    if row is not None:
+    if row is None:
+        return make_response(jsonify(
+            {"message": "Could not find any row"}), 404)
+    elif user_id != row.user_id:
+        return make_response(jsonify(
+            {"message": "You do not have permission to delete this row"}), 405)
+    elif row is not None:
         try:
             session.delete(row)
             session.commit()
@@ -745,8 +818,8 @@ def gconnect():
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'),
-                                 200)
+        response = make_response(json.dumps(
+            'Current user is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -801,22 +874,26 @@ def fbconnect():
         'web']['app_id']
     app_secret = json.loads(
         open('fb_client_secrets.json', 'r').read())['web']['app_secret']
-    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id={}&client_secret={}&fb_exchange_token={}'.format(
+    url = 'https://graph.facebook.com/oauth/\
+    access_token?grant_type=fb_exchange_token&client_id={}&\
+    client_secret={}&fb_exchange_token={}'.format(
         app_id, app_secret, access_token)
     result = httplib2.Http().request(url, 'GET')[1]
 
     # Use token to get user info from API
     userinfo_url = "https://graph.facebook.com/v2.8/me"
     '''
-        Due to the formatting for the result from the server token exchange we have to
-        split the token first on commas and select the first index which gives us the key : value
-        for the server access token then we split it on colons to pull out the actual token value
-        and replace the remaining quotes with nothing so that it can be used directly in the graph
-        api calls
+        Due to the formatting for the result from the server token
+        exchange we have to split the token first on commas and select
+        the first index which gives us the key : value for the server
+        access token then we split it on colons to pull out the actual
+        token value and replace the remaining quotes with nothing so that
+        it can be used directly in the graph api calls
     '''
     access_token = result.split(',')[0].split(':')[1].replace('"', '')
 
-    url = 'https://graph.facebook.com/v2.8/me?access_token={}&fields=name,id,email'.format(
+    url = 'https://graph.facebook.com/v2.8/me?\
+    access_token={}&fields=name,id,email'.format(
         access_token)
     result = httplib2.Http().request(url, 'GET')[1]
     data = json.loads(result)
@@ -830,7 +907,8 @@ def fbconnect():
     })
 
     # Get user picture
-    url = 'https://graph.facebook.com/v2.8/me/picture?access_token={}&redirect=0&height=200&width=200'.format(
+    url = 'https://graph.facebook.com/v2.8/me/picture?\
+    access_token={}&redirect=0&height=200&width=200'.format(
         access_token)
     result = httplib2.Http().request(url, 'GET')[1]
     data = json.loads(result)
@@ -959,8 +1037,8 @@ def getWikiInfo(title):
         if data:
             pages = json.dumps(data['query']['pages'])
         if pages:
-            wiki_page = next(
-                iter(json.loads(pages, object_pairs_hook=OrderedDict).values()))
+            wiki_page = next(iter(json.loads(
+                pages, object_pairs_hook=OrderedDict).values()))
         if wiki_page:
             wiki_page['title'] = (
                 wiki_page['title']).strip().lower().capitalize()
@@ -983,9 +1061,9 @@ def getWikiCategories(title):
         if data:
             pages = json.dumps(data['query']['pages'])
         if pages:
-            wiki_cats = next(
-                iter(json.loads(pages, object_pairs_hook=OrderedDict).values()))[
-                    'categories']
+            wiki_cats = next(iter(json.loads(
+                pages, object_pairs_hook=OrderedDict).values()))[
+                'categories']
         if wiki_cats:
             wiki_categories = []
             for i in wiki_cats:
@@ -998,16 +1076,18 @@ def getWikiCategories(title):
 
 @app.after_request
 def store_visted_urls(response):
-    if not 'last_visited' in login_session:
+    if 'last_visited' not in login_session:
         login_session['last_visited'] = ["/catalog/"]
     if 'last_visited' in login_session:
         path = "{}".format(request.path)
         f_word = "{}".format(request.path).split('/', 2)[1]
         data = prepareData()
-        if isinstance(data, dict) and 'search' in data and data['search'] is not None:
+        if isinstance(data, dict) and \
+                'search' in data and data['search'] is not None:
             q = data['search']
             path += "?search={}".format(q)
-        if f_word != 'static' and login_session['last_visited'][-1] != "{}".format(path):
+        if f_word != 'static' and \
+                login_session['last_visited'][-1] != "{}".format(path):
             login_session['last_visited'].append("{}".format(path))
     while len(login_session['last_visited']) > 4:
         login_session['last_visited'].pop(0)
@@ -1015,7 +1095,7 @@ def store_visted_urls(response):
     return response
 
 
-    # Run test server
+# Run test server
 if __name__ == '__main__':
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = "1"
     # context = ('server.crt', 'server.key')

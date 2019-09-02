@@ -3,7 +3,8 @@
 from flask import Flask, jsonify, request
 from marshmallow_sqlalchemy import ModelSchema, field_for
 from marshmallow import fields
-from sqlalchemy import event, create_engine, Table, MetaData, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import (event, create_engine, Table, MetaData, Column, Integer,
+                        String, DateTime, ForeignKey)
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from slugify import slugify
@@ -11,8 +12,8 @@ from sqlalchemy.event import listen
 from passlib.apps import custom_app_context as pwd_context
 import random
 import string
-from itsdangerous import(
-    TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
+from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer,
+                          BadSignature, SignatureExpired)
 
 engine = create_engine('sqlite:///catalog.db')
 session = scoped_session(sessionmaker(bind=engine))
@@ -65,10 +66,11 @@ class User(Base):
 class Category(Base):
     __tablename__ = 'category'
     id = Column(Integer, primary_key=True)
-    name = Column(String(80), nullable=False)
     items = relationship('Item', secondary=association, lazy='subquery',
                          backref=backref('categories', lazy=True))
+    name = Column(String(80), nullable=False)
     slug = Column(String(100))
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
     @staticmethod
     def slugify(target, value, oldvalue, initiator):
@@ -78,10 +80,11 @@ class Category(Base):
 
 class Item(Base):
     __tablename__ = 'item'
+    description = Column(String(250), nullable=False)
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
-    description = Column(String(250), nullable=False)
     slug = Column(String(100))
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
     @staticmethod
     def slugify(target, value, oldvalue, initiator):
